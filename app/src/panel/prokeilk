@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import { Modal, Typography, TextField, Button, Box, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UploadIcon from '@mui/icons-material/CloudUpload';
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Fab from '@mui/material/Fab';
-import EditIcon from '@mui/icons-material/Edit';
 
 import Ekle from './EkleProje';
 
@@ -72,9 +65,9 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
   };
 
   // Fonksiyon: Sil butonuna tıklandığında çalışır, seçili ürünü siler ve modal'ı kapatır
-  const handleDelete = async (silinecek) => {
+  const handleDelete = async () => {
     // Silinen ürünü yerel state içinden filtrele
-    const updatedProjeList = ProjeList.filter((Proje) => Proje.id !== silinecek);
+    const updatedProjeList = ProjeList.filter((Proje) => Proje !== selectedProje);
 
     // TODO: Yerel state'i güncelle
     setProjeList(updatedProjeList);
@@ -96,69 +89,44 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
     } catch (error) {
       console.error('API isteği sırasında bir hata oluştu', error);
     }
+
+    // Modal'ı kapat
+    handleCloseModal();
   };
 
   return (
     <>
       <Box sx={{ height: '5vh' }} />
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        width="80%" // Tam genişlik
-        margin="auto" // Ortala
-      >
-      <Box display="flex" >
-        <Typography variant="h3" gutterBottom sx={{ textAlign: 'center' }}>
-          Projelerimiz
-        </Typography>    
-        <Ekle AddProje={AddProje} ProjeList={ProjeList} />  
-      </Box>
+      <Typography variant="h3" gutterBottom style={{ textAlign: 'center' }}>
+        PROJELERİMİZ
+      </Typography>
       <Grid
         container
         spacing={{ xs: 1, md: 1 }}
         columns={{ xs: 4, sm: 4, md: 24 }}
         justifyContent="center"
-        alignItems="center"        
+        alignItems="center"
       >
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>id</StyledTableCell>
-                <StyledTableCell>Fotoğraf</StyledTableCell>
-                <StyledTableCell align="center">Başlık</StyledTableCell>
-                <StyledTableCell align='center'>Açıklama</StyledTableCell>
-                <StyledTableCell align="center">Güncelle</StyledTableCell>
-                <StyledTableCell align="center">sil</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {ProjeList.map((Proje) => (
-                <StyledTableRow key={Proje.id}>
-                  <StyledTableCell >{Proje.id}</StyledTableCell>
-                  <StyledTableCell component="th" scope="row">
-                  <img src={Proje?.img} style={{ maxWidth: '100%', maxHeight: '100%' }} />
-                  </StyledTableCell>
-                  <StyledTableCell align="center">{Proje.title}</StyledTableCell>
-                  <StyledTableCell align="center">{Proje.description}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    <Fab color="inherit" aria-label="edit" onClick={() => handleCardClick(Proje)}>
-                      <EditIcon />
-                    </Fab>
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    <IconButton aria-label="delete" size="large" onClick={() => handleDelete(Proje.id)}>
-                      <DeleteIcon fontSize="inherit" />
-                    </IconButton>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Grid>
+        {ProjeList.map((proje, index) => (
+          <Grid item xs={2} sm={2} md={8} key={index}>
+            <Card sx={{ maxWidth: 500, margin: 'auto', maxHeight: 400 }} onClick={() => handleCardClick(proje)}>
+              <CardMedia
+                component="img"
+                height="240"
+                image={proje.img}
+                alt={proje.title}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {proje.title}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>     
+        ))}     
+        <Ekle AddProje={AddProje} ProjeList={ProjeList} />  
+      </Grid> 
+      {/* Modal */}
       <Modal
         open={Boolean(selectedProje)}
         onClose={handleCloseModal}
@@ -177,6 +145,9 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
           </Typography>          
           <IconButton aria-label="upload" size="large" onClick={handleUpdate} >
             <UploadIcon fontSize="large" htmlColor='#0066ff'/>
+          </IconButton>
+          <IconButton aria-label="delete" size="large" onClick={handleDelete} >
+            <DeleteIcon fontSize="large" htmlColor='red' />
           </IconButton>
         </div>
           <img src={selectedProje?.img} alt={selectedProje?.title} style={{ maxWidth: '100%', maxHeight: '100%' }} />
@@ -197,28 +168,7 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
             onChange={(e) => setEditedDescription(e.target.value)}
           />
         </div>
-      </Modal>  
-      </Box> 
+      </Modal>   
     </>
   );
 }
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { IconButton, Modal, Typography, TextField, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/AddCircleSharp';
-import { ProductList } from "../../data/Urunler";
 
 export default function Ekle({ AddProduct, ProductList }) {
   const [isOpen, setIsOpen] = useState(false);

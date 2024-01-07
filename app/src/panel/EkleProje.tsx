@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { IconButton, Modal, Typography, TextField, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/AddCircleSharp';
-import { ProjectList } from "../../data/Projeler";
 
 export default function Ekle({ AddProje, ProjeList }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +30,7 @@ export default function Ekle({ AddProje, ProjeList }) {
     });
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -42,6 +41,25 @@ export default function Ekle({ AddProje, ProjeList }) {
         });
       };
       reader.readAsDataURL(file);
+
+      // Resmi public/pic klasörüne yükleme
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok) {
+          console.log('Resim başarıyla yüklendi.');
+        } else {
+          console.error('Resim yüklenirken bir hata oluştu.');
+        }
+      } catch (error) {
+        console.error('API isteği sırasında bir hata oluştu', error);
+      }
     }
   };
 
@@ -54,7 +72,6 @@ export default function Ekle({ AddProje, ProjeList }) {
     };
 
     AddProje(newProjeItem);
-    console.log(ProjeList)
     setIsOpen(false);
     setNewProje({
       img: null,

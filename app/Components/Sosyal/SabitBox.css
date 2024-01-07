@@ -1,0 +1,31 @@
+.sabit-box {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 93vh;
+  width: 50px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.2); 
+  backdrop-filter: blur(5px); 
+}
+.sabit-box a {
+  opacity: 0.4;
+  font-size: 40px;
+  margin: 5px 10px;
+  cursor: pointer;
+  color: red;
+  transition: opacity 0.3s ease; /* Geçiş efekti ekledik */
+}
+
+.sabit-box a:hover {
+  opacity: 1;
+}
+
+
+  
+
+  /* background-color: #f0f0f0; */
