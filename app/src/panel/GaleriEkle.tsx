@@ -3,6 +3,7 @@ import { IconButton, Modal, Typography, TextField, Button, Box } from '@mui/mate
 import AddIcon from '@mui/icons-material/AddCircleSharp';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
+import fotosave from '../../../pages/api/upload';
 
 export default function Ekle({ AddGaleri, GaleriList}) {
     const [isOpen, setIsOpen] = useState(false);
@@ -41,17 +42,17 @@ export default function Ekle({ AddGaleri, GaleriList}) {
           });
         };
         reader.readAsDataURL(file);
-  
-        // Resmi public/pic klasörüne yükleme
+    
+        // Server-side'da dosyayı yükleme
         const formData = new FormData();
         formData.append('file', file);
-  
+    
         try {
           const response = await fetch('/api/upload', {
             method: 'POST',
             body: formData,
           });
-  
+    
           if (response.ok) {
             console.log('Resim başarıyla yüklendi.');
           } else {
@@ -127,7 +128,7 @@ export default function Ekle({ AddGaleri, GaleriList}) {
               />
             )}
             <Button component="label" variant="contained" onClick={handleAddGaleri} startIcon={<CloudUploadIcon />}>
-                Upload file
+                Galeriye Ekle
                 <VisuallyHiddenInput type="file" />
             </Button>
           </div>
@@ -136,7 +137,7 @@ export default function Ekle({ AddGaleri, GaleriList}) {
       </>
     );
   }
-  
+
  const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',

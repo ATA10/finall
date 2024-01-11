@@ -4,7 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import ProjectForm from './panel/ProjectForm';
 import ProductsForm from './panel/ProductsForm';
 import GaleriForm from './panel/GaleriForm';
-
+import EmailForm from './panel/EmailCon';
 import { fetchData } from '../../pages/api/utils';
 
 const Admin: React.FC = () => {
@@ -13,6 +13,7 @@ const Admin: React.FC = () => {
   const [productList, setProductsList] = useState([]);
   const [projectList, setProjectList] = useState([]);
   const [galeriList, setGaleriList] = useState([]);
+  const [EmailList, setEmailList] = useState([]);
 
   useEffect(() => {
     fetchData('Urunler').then((data) => {
@@ -29,6 +30,12 @@ const Admin: React.FC = () => {
   useEffect(() => {
     fetchData('Galeri').then((data) => {
       setGaleriList(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    fetchData('email').then((data) => {
+      setEmailList(data);
     });
   }, []);
 
@@ -132,6 +139,40 @@ const Admin: React.FC = () => {
     console.log(galeriList);
   }, [galeriList]);
 
+
+  // Yeni proje eklemek için kullanılan fonksiyon
+  const AddEmail = async (newMailItem: any) => {
+    // State güncellemesi
+    setEmailList([...EmailList, newMailItem]);
+    let arr = [];
+    EmailList.map((mail, index) => {
+      arr.push(mail);
+    });
+    arr.push(newMailItem);
+    try {
+      // API'ye POST isteği gönderme
+      const response = await fetch('/api/Serveremail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(arr),
+      });
+      if (response.ok) {
+        console.log('email başarıyla eklendi');
+      } else {
+        console.error('email eklenirken bir hata oluştu');
+      }
+    } catch (error) {
+      console.error('API isteği sırasında bir hata oluştu', error);
+    }
+  };
+
+  // State değişikliği sonrasında yapılacak işlemler
+  useEffect(() => {
+    console.log(EmailList);
+  }, [EmailList]);
+
   // Component'in render edildiği kısım
   return (
     <>
@@ -141,6 +182,7 @@ const Admin: React.FC = () => {
         <ProjectForm ProjeList={projectList} setProjeList={setProjectList} AddProje={AddProje} />
         <ProductsForm ProductList={productList} setProductList={setProductsList} AddProduct={AddProduct} />
         <GaleriForm GaleriList={galeriList} setGaleriList={setGaleriList} AddGaleri={AddGaleri}/>
+        <EmailForm  emaillist={EmailList} setemaillist={setEmailList} AddEmail={AddEmail}/>
       </div>
     </>
   );

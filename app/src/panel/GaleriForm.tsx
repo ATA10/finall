@@ -77,7 +77,7 @@ export default function GaleriForm({ GaleriList, setGaleriList, AddGaleri }) {
           ))}
         </ImageList>
       </Box>
-      <Box sx={{ height: '25vh' }} />
+      <Box sx={{ height: '10vh' }} />
     </>
   );
 }

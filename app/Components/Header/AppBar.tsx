@@ -19,7 +19,7 @@ const NavBar = ({ scrollPosition }) => {
       >
         <Toolbar>
           <Typography variant="h6" color={scrollPosition < 100 ? 'white' : 'black'}>
-            Sabit Header
+            Fuko Reis İkon
           </Typography>
           <Box display="flex" alignItems="center" sx={{ marginLeft: 'auto' }}>
             <Link to="anasayfa" spy={true} smooth={true} offset={-70} duration={500}>

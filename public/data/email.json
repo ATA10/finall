@@ -1,27 +1,32 @@
 [
-    {
-      "id": 1,
-      "name": "a1",
-      "email": "email1@example.com"
-    },
-    {
-      "id": 2,
-      "name": "a1",
-      "email": "email2@example.com"
-    },
-    {
-      "id": 3,
-      "name": "a3",
-      "email": "email3@example.com"
-    },
-    {
-      "id": 4,
-      "name": "a4",
-      "email": "email4@example.com"
-    },
-    {
-      "id": 5,
-      "name": "a5",
-      "email": "email5@example.com"
-    }
-  ]
+  {
+    "id": 1,
+    "name": "a1",
+    "email": "tahaadak94@gmail.com",
+    "durum": "true"
+  },
+  {
+    "id": 2,
+    "name": "a1",
+    "email": "tahaadak94@gmail.com",
+    "durum": "true"
+  },
+  {
+    "id": 3,
+    "name": "a1",
+    "email": "tahaadak94@gmail.com",
+    "durum": "true"
+  },
+  {
+    "id": 4,
+    "name": "a1",
+    "email": "tahaadak94@gmail.com",
+    "durum": "true"
+  },
+  {
+    "id": 5,
+    "name": "a1",
+    "email": "tahaadak94@gmail.com",
+    "durum": "true"
+  }
+]
