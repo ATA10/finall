@@ -8,6 +8,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import ProductList from "../../../public/data/Urunler.json";
+import Image from 'next/image';
 
 export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -82,7 +83,14 @@ export default function Products() {
           <Typography variant="h5" gutterBottom style={{ opacity: '1.0' }}>
             {selectedProduct?.title}
           </Typography>
-          <img src={selectedProduct?.img} alt={selectedProduct?.title} style={{ maxWidth: '100%', maxHeight: '100%' }} />
+          <Image 
+          src={`/${selectedProduct?.img}`} 
+          alt={selectedProduct?.title} 
+          width={400}
+          height={300}
+          style={{ 
+            maxWidth: '100%', 
+            maxHeight: '100%' }} />
           <Typography variant="body2" id="product-modal-description">
             {selectedProduct?.description}
           </Typography>

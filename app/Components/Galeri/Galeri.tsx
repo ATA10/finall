@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Masonry from '@mui/lab/Masonry';
 import { styled } from '@mui/material/styles';
+import Image from 'next/image';
 
 import GaleriData from "../../../public/data/Galeri.json";
 
@@ -33,11 +34,13 @@ export default function ImageMasonry() {
             {GaleriData.map((item, index) => (
                 <div key={index}>
                 {/* <Label>{item.title}</Label> */}
-                <img
+                <Image
                     srcSet={`${item.img}?w=162&auto=format&dpr=2 2x`}
                     src={`${item.img}?w=162&auto=format`}
                     alt={item.title}
                     loading="lazy"
+                    width={162}
+                    height={162}
                     style={{
                     borderBottomLeftRadius: 4,
                     borderBottomRightRadius: 4,

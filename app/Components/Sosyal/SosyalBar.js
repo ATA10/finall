@@ -19,7 +19,8 @@ const SosyalBar = () => {
   };
 
    const handleCopy = () => {
-    navigator.clipboard.writeText(telefonNumarasi)
+    navigator.clipboard
+      .writeText(telefonNumarasi)
       .then(() => {
         console.log('Telefon numarası panoya kopyalandı:', telefonNumarasi);
         setCopySuccess(true);
@@ -34,7 +35,7 @@ const SosyalBar = () => {
       return;
     }
     setCopySuccess(false);
-  };
+}
   return (
     <div className="sabit-box">
       <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
@@ -46,17 +47,17 @@ const SosyalBar = () => {
       <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
         <TwitterIcon style={{ fontSize: 40, margin: '5px 0', color:'darkblue'}} />
       </a>
-      <a href={`tel:${telefonNumarasi}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <a href={`tel:${telefonNumarasi}`} 
+      style={{ textDecoration: 'none', color: 'inherit' }}>
         <CallIcon
           style={{ fontSize: 40, margin: '5px 10px', cursor: 'pointer', color:'red'}}
           onClick={() => {
             handleCall();
             handleCopy();
-            setCopySuccess(true);
           }}
         />
       </a>
-      <a href={`https://wa.me/${telefonNumarasi}`} target="_blank" rel="noopener noreferrer">
+      <a href={`https://wa.me/${telefonNumarasi}?text=deneme`} target="_blank" rel="noopener noreferrer">
         <WhatsAppIcon style={{ fontSize: 40, margin: '5px 0', color:'green' }} />
       </a>
       <Snackbar open={copySuccess} autoHideDuration={3000} onClose={handleCloseSnackbar}>

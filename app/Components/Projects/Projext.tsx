@@ -7,6 +7,7 @@ import { CardActionArea, CardActions, Modal } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import Image from 'next/image';
 
 import ProjectList from "../../../public/data/Projeler.json";
 
@@ -72,7 +73,12 @@ export default function Project() {
             <Typography variant="h5" gutterBottom style={{ opacity: '1.0' }}>
               {selectedProduct?.title}
             </Typography>
-            <img src={selectedProduct?.img} alt={selectedProduct?.title} style={{ maxWidth: '100%', maxHeight: '100%' }} />
+            <Image 
+            src={`/${selectedProduct?.img}`} 
+            alt={selectedProduct?.title} 
+            width={400}
+            height={300}
+            style={{ maxWidth: '100%', maxHeight: '100%' }} />
           </div>
           <Typography variant="body2" id="product-modal-description">
             {selectedProduct?.description}
