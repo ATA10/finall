@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { IconButton, Modal, Typography, TextField, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/AddCircleSharp';
+import Image from 'next/image';
 
 export default function Ekle({ AddProje, ProjeList }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [file, setFile] = useState(null);
   const [newProje, setNewProje] = useState({
     img: null,
     title: '',
@@ -31,37 +33,37 @@ export default function Ekle({ AddProje, ProjeList }) {
   };
 
   const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setNewProje({
-          ...newProje,
-          img: reader.result,
-        });
-      };
-      reader.readAsDataURL(file);
-
-      // Resmi public/pic klasörüne yükleme
+    const selectedFile = e.target.files[0];
+  
+    if (selectedFile) {
       const formData = new FormData();
-      formData.append('file', file);
-
+      formData.append('file', selectedFile);
+  
       try {
         const response = await fetch('/api/upload', {
           method: 'POST',
           body: formData,
         });
-
+  
         if (response.ok) {
-          console.log('Resim başarıyla yüklendi.');
+          const responseData = await response.json();
+  
+          setNewProje({
+            ...newProje,
+            img: responseData.imagePath, // Update with the received file path
+          });
+  
+          console.log('File uploaded successfully:', responseData);
         } else {
-          console.error('Resim yüklenirken bir hata oluştu.');
+          console.error('Error uploading file:', response.statusText);
         }
       } catch (error) {
-        console.error('API isteği sırasında bir hata oluştu', error);
+        console.error('API request error:', error);
       }
     }
   };
+  
+  
 
   const handleAddProje = () => {
     const newProjeItem = {
@@ -79,7 +81,7 @@ export default function Ekle({ AddProje, ProjeList }) {
       description: '',
     });
   };
-
+  console.log("Image URL:", newProje.img);
   return (
     <>
       <IconButton aria-label="add" color="secondary" onClick={handleOpen}>
@@ -123,6 +125,7 @@ export default function Ekle({ AddProje, ProjeList }) {
             accept="image/*"
             onChange={handleFileChange}
           />
+          
           {newProje.img && (
             <img
               src={newProje.img}

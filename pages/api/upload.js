@@ -1,23 +1,37 @@
 // pages/api/upload.js
-import multer from 'multer';
 
-const upload = multer({ dest: 'public/pic/tema/' });
+import { IncomingForm } from 'formidable';
+import fs from 'fs';
+import path from 'path';
 
 export default async function handler(req, res) {
   try {
-    await new Promise((resolve) => {
-      upload.single('file')(req, res, function (err) {
-        if (err) {
-          console.error('Multer Hatası:', err);
-          return res.status(500).json({ error: err.message });
-        }
-        resolve();
+    if (req.method !== 'POST') {
+      return res.status(405).end(); // Method Not Allowed
+    }
+
+    const form = new IncomingForm();
+    form.uploadDir = path.join(process.cwd(), 'public/pic'); // Set the upload directory
+
+    form.parse(req, async (err, fields, files) => {
+      if (err) {
+        console.error('Error parsing form:', err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+
+      const fileName = files.file && files.file.name ? files.file.name : 'defaultFileName';
+      const oldPath = files.file.path;
+      const newPath = path.join(process.cwd(), 'public/pic', fileName);
+
+      fs.renameSync(oldPath, newPath);
+
+      return res.status(200).json({
+        success: true,
+        imagePath: `/pic/${fileName}`,
       });
     });
-
-    return res.status(200).json({ message: 'Dosya başarıyla yüklendi!' });
   } catch (error) {
-    console.error('Sunucu Hatası:', error);
-    return res.status(500).json({ error: 'Dosya yüklenirken bir hata oluştu.' });
+    console.error('Unexpected error:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 }

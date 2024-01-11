@@ -13,6 +13,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Fab from '@mui/material/Fab';
 import EditIcon from '@mui/icons-material/Edit';
+import Image from 'next/image';
 
 import Ekle from './EkleProje';
 
@@ -139,7 +140,7 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
                 <StyledTableRow key={Proje.id}>
                   <StyledTableCell >{Proje.id}</StyledTableCell>
                   <StyledTableCell component="th" scope="row">
-                  <img src={Proje?.img} style={{ maxWidth: '100%', maxHeight: '100%' }} />
+                  <Image src={`/${Proje?.img}`} width={400} height={300}style={{ maxWidth: '100%', maxHeight: '100%' }} />
                   </StyledTableCell>
                   <StyledTableCell align="center">{Proje.title}</StyledTableCell>
                   <StyledTableCell align="center">{Proje.description}</StyledTableCell>
@@ -179,7 +180,7 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
             <UploadIcon fontSize="large" htmlColor='#0066ff'/>
           </IconButton>
         </div>
-          <img src={selectedProje?.img} alt={selectedProje?.title} style={{ maxWidth: '100%', maxHeight: '100%' }} />
+          <Image src={`/${selectedProje?.img}`} width={400} height={300}style={{ maxWidth: '100%', maxHeight: '100%' }} />
           <TextField
             label="Başlık"
             variant="outlined"
