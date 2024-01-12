@@ -35,7 +35,7 @@ export default function ImageMasonry() {
                 <div key={index}>
                 {/* <Label>{item.title}</Label> */}
                 <Image
-                    //srcSet={`${item.img}?w=162&auto=format&dpr=2 2x`}
+                    
                     src={`${item.img}?w=162&auto=format`}
                     alt={item.title}
                     loading="lazy"
