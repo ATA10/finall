@@ -1,9 +1,11 @@
-import * as React from 'react';
+import  {React, useState } from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Masonry from '@mui/lab/Masonry';
 import { styled } from '@mui/material/styles';
 import Image from 'next/image';
+import Typography from '@mui/material/Typography';
+import { Modal } from '@mui/material';
 
 import GaleriData from "../../../public/data/Galeri.json";
 
@@ -18,6 +20,16 @@ const Label = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ImageMasonry() {
+  const [selectedGaleri, setSelectedGaleri] = useState(null);
+
+  const handleCardClick = (galeri) => {
+    setSelectedGaleri(galeri);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedGaleri(null);
+  };
+
   return (
     <>
     <Box sx={{ height: '5vh' }} id="galeri"/>
@@ -31,13 +43,13 @@ export default function ImageMasonry() {
         >
         <Box sx={{ width: 1500 }}>
             <Masonry columns={3} spacing={2}>
-            {GaleriData.map((item, index) => (
+            {GaleriData.map((galeri, index) => (
                 <div key={index}>
                 {/* <Label>{item.title}</Label> */}
                 <Image
                     //srcSet={`${item.img}?w=162&auto=format&dpr=2 2x`}
-                    src={`${item.img}?w=162&auto=format`}
-                    alt={item.title}
+                    src={`${galeri.img}?w=162&auto=format`}
+                    alt={galeri.title}
                     loading="lazy"
                     width={162}
                     height={162}
@@ -47,12 +59,55 @@ export default function ImageMasonry() {
                     display: 'block',
                     width: '100%',
                     }}
+                    onClick={() => handleCardClick(galeri)}
                 />
                 </div>
             ))}
             </Masonry>
         </Box>
     </Box>
+    {/* Modal */}
+    <Modal
+        open={Boolean(selectedGaleri)}
+        onClose={handleCloseModal}
+        aria-labelledby="product-modal"
+        aria-describedby="product-modal-description"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',        
+        }}
+      >
+        <div
+          style={{
+            overflow: 'auto',
+            backgroundColor: 'rgba(255, 255, 255, 0.0)',
+            padding: '1px',
+            width: 1000, // Genişlik
+            height: 900, // Yükseklik
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          {/* Modal İçeriği */}
+          <Typography variant="h5" gutterBottom style={{ opacity: '1.0' }}>
+            {selectedGaleri?.title}
+          </Typography>
+          <Image 
+          src={`${selectedGaleri?.img}`} 
+          alt={selectedGaleri?.title} 
+          width={1000}
+          height={900}
+          style={{ 
+            maxWidth: '100%', 
+            maxHeight: '100%' }} />
+          <Typography variant="body2" id="product-modal-description">
+            {selectedGaleri?.description}
+          </Typography>
+          {/* Fiyatı ekleme */}
+        </div>
+      </Modal>
     </>
   );
 }
