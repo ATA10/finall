@@ -3,7 +3,7 @@ import { IconButton, Modal, Typography, TextField, Button, Box } from '@mui/mate
 import AddIcon from '@mui/icons-material/AddCircleSharp';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
-import fotosave from '../../../pages/api/upload';
+import Image from 'next/image';
 
 export default function Ekle({ AddGaleri, GaleriList}) {
     const [isOpen, setIsOpen] = useState(false);
@@ -32,34 +32,34 @@ export default function Ekle({ AddGaleri, GaleriList}) {
     };
   
     const handleFileChange = async (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setNewGaleri({
-            ...newGaleri,
-            img: reader.result,
-          });
-        };
-        reader.readAsDataURL(file);
-    
-        // Server-side'da dosyayı yükleme
+      const selectedFile = e.target.files[0];
+  
+      if (selectedFile) {
         const formData = new FormData();
-        formData.append('file', file);
-    
+        formData.append('file', selectedFile);
+        console.log(formData);
+  
+  
         try {
-          const response = await fetch('/api/upload', {
+          const response = await fetch('/api/upload/', {
             method: 'POST',
             body: formData,
           });
-    
+  
           if (response.ok) {
-            console.log('Resim başarıyla yüklendi.');
+            const responseData = await response.json();
+  
+            setNewGaleri({
+              ...newGaleri,
+              img: responseData.imagePath, // Update with the received file path
+            });
+  
+            console.log('File uploaded successfully:', responseData);
           } else {
-            console.error('Resim yüklenirken bir hata oluştu.');
+            console.error('Error uploading file:', response.statusText);
           }
         } catch (error) {
-          console.error('API isteği sırasında bir hata oluştu', error);
+          console.error('API request error:', error);
         }
       }
     };
@@ -121,9 +121,11 @@ export default function Ekle({ AddGaleri, GaleriList}) {
               onChange={handleFileChange}
             />
             {newGaleri.img && (
-              <img
-                src={newGaleri.img}
-                alt="Selected"
+              <Image
+              src={`/${newGaleri.img}`}
+              alt="Selected"
+              width={300}
+              height={300}
                 style={{ width: '100%', marginTop: '10px' }}
               />
             )}

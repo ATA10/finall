@@ -13,6 +13,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Fab from '@mui/material/Fab';
 import EditIcon from '@mui/icons-material/Edit';
+import Image from 'next/image';
+
 import Ekle from './EkleUrun';
 
 
@@ -148,7 +150,7 @@ export default function ProductctForm({ProductList, setProductList, AddProduct})
                 <StyledTableRow key={Product.id}>
                   <StyledTableCell >{Product.id}</StyledTableCell>
                   <StyledTableCell component="th" scope="row">
-                  <img src={Product?.img} style={{ maxWidth: '100%', maxHeight: '100%' }} />
+                  <Image src={`/${Product?.img}`} width={200} height={200} style={{ maxWidth: '100%', maxHeight: '100%' }} />
                   </StyledTableCell>
                   <StyledTableCell align="center">{Product.title}</StyledTableCell>
                   <StyledTableCell align="center">{Product.description}</StyledTableCell>

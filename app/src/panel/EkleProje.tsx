@@ -7,7 +7,7 @@ export default function Ekle({ AddProje, ProjeList }) {
   const [isOpen, setIsOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [newProje, setNewProje] = useState({
-    img: null,
+    img: '',
     title: '',
     description: '',
   });
@@ -19,7 +19,7 @@ export default function Ekle({ AddProje, ProjeList }) {
   const handleClose = () => {
     setIsOpen(false);
     setNewProje({
-      img: null,
+      img: '',
       title: '',
       description: '',
     });
@@ -32,27 +32,31 @@ export default function Ekle({ AddProje, ProjeList }) {
     });
   };
 
+  // Update handleFileChange function
+
   const handleFileChange = async (e) => {
     const selectedFile = e.target.files[0];
-  
+
     if (selectedFile) {
       const formData = new FormData();
       formData.append('file', selectedFile);
-  
+      console.log(formData);
+
+
       try {
         const response = await fetch('/api/upload', {
           method: 'POST',
           body: formData,
         });
-  
+
         if (response.ok) {
           const responseData = await response.json();
-  
+
           setNewProje({
             ...newProje,
             img: responseData.imagePath, // Update with the received file path
           });
-  
+
           console.log('File uploaded successfully:', responseData);
         } else {
           console.error('Error uploading file:', response.statusText);
@@ -62,8 +66,7 @@ export default function Ekle({ AddProje, ProjeList }) {
       }
     }
   };
-  
-  
+
 
   const handleAddProje = () => {
     const newProjeItem = {
@@ -76,7 +79,7 @@ export default function Ekle({ AddProje, ProjeList }) {
     AddProje(newProjeItem);
     setIsOpen(false);
     setNewProje({
-      img: null,
+      img: '',
       title: '',
       description: '',
     });
@@ -127,9 +130,11 @@ export default function Ekle({ AddProje, ProjeList }) {
           />
           
           {newProje.img && (
-            <img
-              src={newProje.img}
+            <Image
+              src={`/${newProje.img}`}
               alt="Selected"
+              width={300}
+              height={300}
               style={{ width: '100%', marginTop: '10px' }}
             />
           )}

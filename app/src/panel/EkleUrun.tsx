@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { IconButton, Modal, Typography, TextField, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/AddCircleSharp';
+import Image from 'next/image';
 
 export default function Ekle({ AddProduct, ProductList }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,17 +31,36 @@ export default function Ekle({ AddProduct, ProductList }) {
     });
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setnewProduct({
-          ...newProduct,
-          img: reader.result,
+  const handleFileChange = async (e) => {
+    const selectedFile = e.target.files[0];
+
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      console.log(formData);
+
+
+      try {
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
         });
-      };
-      reader.readAsDataURL(file);
+
+        if (response.ok) {
+          const responseData = await response.json();
+
+          setnewProduct({
+            ...newProduct,
+            img: responseData.imagePath, // Update with the received file path
+          });
+
+          console.log('File uploaded successfully:', responseData);
+        } else {
+          console.error('Error uploading file:', response.statusText);
+        }
+      } catch (error) {
+        console.error('API request error:', error);
+      }
     }
   };
 
@@ -106,9 +126,11 @@ export default function Ekle({ AddProduct, ProductList }) {
             onChange={handleFileChange}
           />
           {newProduct.img && (
-            <img
-              src={newProduct.img}
+            <Image
+              src={`/${newProduct.img}`}
               alt="Selected"
+              width={300}
+              height={300}
               style={{ width: '100%', marginTop: '10px' }}
             />
           )}

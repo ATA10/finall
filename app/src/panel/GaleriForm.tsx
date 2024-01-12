@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, ImageList, ImageListItem, ImageListItemBar, IconButton } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Delete';
-
+import Image from 'next/image';
 import Ekle from './GaleriEkle';
 
 export default function GaleriForm({ GaleriList, setGaleriList, AddGaleri }) {
@@ -58,10 +58,12 @@ export default function GaleriForm({ GaleriList, setGaleriList, AddGaleri }) {
           </ImageListItem>
           {GaleriList.map((item) => (
             <ImageListItem key={item.img}>
-              <img
+              <Image
                 srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
                 src={`${item.img}?w=248&fit=crop&auto=format`}
                 alt={item.title}
+                width={1000}
+                height={1200}
                 loading="lazy"
               />
               <ImageListItemBar
