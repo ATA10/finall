@@ -5,6 +5,7 @@ import ProjectForm from './panel/ProjectForm';
 import ProductsForm from './panel/ProductsForm';
 import GaleriForm from './panel/GaleriForm';
 import EmailForm from './panel/EmailCon';
+import Doviz from './panel/Doviz';
 import { fetchData } from '../../pages/api/utils';
 
 const Admin: React.FC = () => {
@@ -179,6 +180,7 @@ const Admin: React.FC = () => {
       <CssBaseline />
       <div>
         <h1>Admin Panel</h1>
+        <Doviz />
         <ProjectForm ProjeList={projectList} setProjeList={setProjectList} AddProje={AddProje} />
         <ProductsForm ProductList={productList} setProductList={setProductsList} AddProduct={AddProduct} />
         <GaleriForm GaleriList={galeriList} setGaleriList={setGaleriList} AddGaleri={AddGaleri}/>

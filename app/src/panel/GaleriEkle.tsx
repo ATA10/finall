@@ -67,7 +67,7 @@ export default function Ekle({ AddGaleri, GaleriList}) {
     const handleAddGaleri = () => {
       const newGaleriItem = {
         id: Math.max(...GaleriList.map(item => item.id), 0) + 1,
-        img: newGaleri.img,
+        img: '/'+ newGaleri.img,
         title: newGaleri.title,
       };
   

@@ -1,4 +1,4 @@
-import  {React, useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Masonry from '@mui/lab/Masonry';
@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import { Modal } from '@mui/material';
 
 import GaleriData from "../../../public/data/Galeri.json";
+import { MdFullscreen, MdOutlineFullscreen } from 'react-icons/md';
 
 const Label = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -84,21 +85,22 @@ export default function ImageMasonry() {
             backgroundColor: 'rgba(255, 255, 255, 0.0)',
             padding: '1px',
             width: 1000, // Genişlik
-            height: 900, // Yükseklik
+            height: 800, // Yükseklik
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            backdropFilter: 'blur(9px)',            
           }}
         >
           {/* Modal İçeriği */}
-          <Typography variant="h5" gutterBottom style={{ opacity: '1.0' }}>
+          <Typography variant="h5" gutterBottom style={{ opacity: '1.0'}} color={'white'}>
             {selectedGaleri?.title}
           </Typography>
           <Image 
           src={`${selectedGaleri?.img}`} 
           alt={selectedGaleri?.title} 
-          width={1000}
-          height={900}
+          width={800}
+          height={600}
           style={{ 
             maxWidth: '100%', 
             maxHeight: '100%' }} />

@@ -13,7 +13,7 @@ import Image from 'next/image';
 export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const handleCardClick = (product) => {
+  const handleCardClick = (product:any) => {
     setSelectedProduct(product);
   };
 
@@ -28,32 +28,32 @@ export default function Products() {
         ÜRÜNLERİMİZ
       </Typography>
       <Grid
-  container
-  spacing={2}
-  columns={{ xs: 4, sm: 4, md: 20 }}
-  justifyContent="center"
-  alignItems="center"
->
-  {ProductList.map((product, index) => (
-    <Grid item xs={6} sm={6} md={6} key={index}>
-      <Card sx={{ maxWidth: 400, margin: 'auto', maxHeight: 450 }} onClick={() => handleCardClick(product)}>
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="240"
-            image={product.img}
-            alt={product.title}            
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {product.title}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </Grid>
-  ))}
-</Grid>
+        container
+        spacing={2}
+        columns={{ xs: 2, sm: 2, md: 24 }}
+        justifyContent="center"
+        alignItems="center"
+      >
+        {ProductList.map((product, index) => (
+          <Grid item xs={6} sm={6} md={6} key={index}>
+            <Card sx={{ maxWidth: 400, margin: 'auto', maxHeight: 450 }} onClick={() => handleCardClick(product)}>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="240"
+                  image={product.img}
+                  alt={product.title}            
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {product.title}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
 
       {/* Modal */}
       <Modal
@@ -72,8 +72,8 @@ export default function Products() {
             overflow: 'auto',
             backgroundColor: 'rgba(255, 255, 255, 0.9)',
             padding: '20px',
-            width: 800, // Genişlik
-            height: 600, // Yükseklik
+            width: 1000, // Genişlik
+            height: 800, // Yükseklik
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -91,7 +91,8 @@ export default function Products() {
           style={{ 
             maxWidth: '100%', 
             maxHeight: '100%' }} />
-          <Typography variant="body2" id="product-modal-description">
+          <Box sx={{ height: '5vh' }} />
+          <Typography variant="body1" id="product-modal-description">
             {selectedProduct?.description}
           </Typography>
           {/* Fiyatı ekleme */}
