@@ -46,21 +46,20 @@ const Home = () => {
   return (
     <>
     <Grid
-    display="flex"
     flexDirection="column"
-    width="80%" // Tam genişlik
+    width="40%" // Tam genişlik
     margin="auto" // Ortala
     container
     justifyContent="center"
     alignItems="center"  
-    style={{backgroundColor:"white"}}      
+    style={{backgroundColor:'rgba(255, 255, 255, 0.8)'}}    
     >
         <Box>
             <Typography variant="h3" gutterBottom sx={{ textAlign: 'center' }}>
             Döviz Kurları
             </Typography> 
         </Box>
-        <Box display={'flex'}>
+        <Box display={'flex'} margin={'left'}>
             {/* <Box>
                 {tcmbDataUSD && (
                 <><Typography variant="h4" gutterBottom>Dolar : {(tcmbDataUSD)}</Typography>
@@ -70,7 +69,7 @@ const Home = () => {
             </Box> */}
             <Box>
                 <ul>
-                    {tcmbData.map((item, index) => (
+                    {tcmbData.slice(0,10).map((item, index) => (
                     <li key={index}>
                         <Typography variant="h4" gutterBottom>{item}</Typography>
                     </li>

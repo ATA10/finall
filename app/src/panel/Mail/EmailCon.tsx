@@ -79,6 +79,7 @@ export default function EmailCon({AddEmail, emaillist, setemaillist}) {
     
       return(
         <>
+        <Box sx={{ height: '5vh' }} id ="mail"/>
         <Box
         sx={{
             display: 'flex',
@@ -168,7 +169,7 @@ export default function EmailCon({AddEmail, emaillist, setemaillist}) {
             </TableContainer>
             </Box>
         </Box>
-        <Box sx={{ height: '10vh' }} />
+        <Box sx={{ height: '30vh' }} />
         </>
       );
 }

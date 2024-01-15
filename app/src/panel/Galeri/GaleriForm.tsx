@@ -35,7 +35,7 @@ export default function GaleriForm({ GaleriList, setGaleriList, AddGaleri }) {
 
   return (
     <>
-      <Box sx={{ height: '5vh' }} />
+      <Box sx={{ height: '5vh' }} id ="galeri"/>
       <Box
         display="flex"
         flexDirection="column"

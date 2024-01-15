@@ -15,49 +15,56 @@ import Fab from '@mui/material/Fab';
 import EditIcon from '@mui/icons-material/Edit';
 import Image from 'next/image';
 
-import Ekle from './EkleProje';
+import Ekle from './EkleUrun';
 
-export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
 
-  const [selectedProje, setselectedProje] = useState(null);
-  const [editedTitle, setEditedTitle] = useState('');
-  const [editedDescription, setEditedDescription] = useState('');
+// Ana bileşenimiz, ürün listesini görüntüleyen ve düzenlemeyi sağlayan bir form
+export default function ProductctForm({ProductList, setProductList, AddProduct}) {
+  
+  // State değişkenleri: Seçili ürün, düzenlenmiş başlık ve açıklama
+  const [selectedProduct, setselectedProduct] = useState(null);
+  const [editedTitleProduct, seteditedTitleProduct] = useState('');
+  const [editedDescriptionProduct, seteditedDescriptionProduct] = useState('');
 
-  const handleCardClick = (proje) => {
-    setselectedProje(proje);
-    setEditedTitle(proje.title);
-    setEditedDescription(proje.description);
+  // Fonksiyon: Kart tıklandığında çalışır, seçili ürünü ve bilgilerini set eder
+  const handleCardClick = (Product) => {
+    setselectedProduct(Product);
+    seteditedTitleProduct(Product.title);
+    seteditedDescriptionProduct(Product.description);
   };
 
+  // Fonksiyon: Modal'ı kapatır ve state'leri sıfırlar
   const handleCloseModal = () => {
-    setselectedProje(null);
-    setEditedTitle('');
-    setEditedDescription('');
+    setselectedProduct(null);
+    seteditedTitleProduct('');
+    seteditedDescriptionProduct('');
   };
 
+  // Fonksiyon: Güncelle butonuna tıklandığında çalışır, ürünü günceller ve modal'ı kapatır
   const handleUpdate = async () => {
     // Güncellenen veriyi oluştur
-    const updatedproje = {
-      ...selectedProje,
-      title: editedTitle,
-      description: editedDescription,
+    const updatedProduct = {
+      ...selectedProduct,
+      title: editedTitleProduct,
+      description: editedDescriptionProduct,
     };
+
     // Güncellenen ürünü yerel state içinde bul
-    const updatedProjeList = ProjeList.map((proje) =>
-      proje === selectedProje ? updatedproje : proje
+    const updatedProductList = ProductList.map((Product) =>
+      Product === selectedProduct ? updatedProduct : Product
     );
 
     // TODO: Yerel state'i güncelle
-    setProjeList(updatedProjeList);
+    setProductList(updatedProductList);
 
     try {
       // API'ye POST isteği gönderme
-      const response = await fetch('/api/ServerProje', {
+      const response = await fetch('/api/ServerProduct', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedProjeList),
+        body: JSON.stringify(updatedProductList),
       });
 
       if (response.ok) {
@@ -68,6 +75,7 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
     } catch (error) {
       console.error('API isteği sırasında bir hata oluştu', error);
     }
+
     // Modal'ı kapat
     handleCloseModal();
   };
@@ -75,18 +83,18 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
   // Fonksiyon: Sil butonuna tıklandığında çalışır, seçili ürünü siler ve modal'ı kapatır
   const handleDelete = async (silinecek) => {
     // Silinen ürünü yerel state içinden filtrele
-    const updatedProjeList = ProjeList.filter((Proje) => Proje.id !== silinecek);
+    const updatedProductList = ProductList.filter((Product) => Product.id !== silinecek);
 
     // TODO: Yerel state'i güncelle
-    setProjeList(updatedProjeList);
+    setProductList(updatedProductList);
     try {
       // API'ye POST isteği gönderme
-      const response = await fetch('/api/ServerProje', {
+      const response = await fetch('/api/ServerProduct', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedProjeList),
+        body: JSON.stringify(updatedProductList),
       });
 
       if (response.ok) {
@@ -99,9 +107,10 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
     }
   };
 
+  // Ana bileşenin render fonksiyonu
   return (
     <>
-      <Box sx={{ height: '5vh' }} />
+      <Box sx={{ height: '5vh' }} id="urunler"/>
       <Box
         display="flex"
         flexDirection="column"
@@ -112,9 +121,9 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
       >
       <Box display="flex" >
         <Typography variant="h3" gutterBottom sx={{ textAlign: 'center' }}>
-          Projelerimiz
+          ÜRÜNLERİMİZ
         </Typography>    
-        <Ekle AddProje={AddProje} ProjeList={ProjeList} />  
+        <Ekle AddProduct={AddProduct} ProductList={ProductList}/>
       </Box>
       <Grid
         container
@@ -131,26 +140,28 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
                 <StyledTableCell>Fotoğraf</StyledTableCell>
                 <StyledTableCell align="center">Başlık</StyledTableCell>
                 <StyledTableCell align='center'>Açıklama</StyledTableCell>
+                <StyledTableCell align="center">Fiyat</StyledTableCell>
                 <StyledTableCell align="center">Güncelle</StyledTableCell>
                 <StyledTableCell align="center">sil</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {ProjeList.map((Proje) => (
-                <StyledTableRow key={Proje.id}>
-                  <StyledTableCell >{Proje.id}</StyledTableCell>
+              {ProductList.map((Product) => (
+                <StyledTableRow key={Product.id}>
+                  <StyledTableCell >{Product.id}</StyledTableCell>
                   <StyledTableCell component="th" scope="row">
-                  <Image src={`/${Proje?.img}`} width={400} height={300}style={{ maxWidth: '100%', maxHeight: '100%' }} />
+                  <Image src={`/${Product?.img}`} width={200} height={200} style={{ maxWidth: '100%', maxHeight: '100%' }} />
                   </StyledTableCell>
-                  <StyledTableCell align="center">{Proje.title}</StyledTableCell>
-                  <StyledTableCell align="center">{Proje.description}</StyledTableCell>
+                  <StyledTableCell align="center">{Product.title}</StyledTableCell>
+                  <StyledTableCell align="center">{Product.description}</StyledTableCell>
+                  <StyledTableCell align="center">{Product.price}</StyledTableCell>
                   <StyledTableCell align="center">
-                    <Fab color="inherit" aria-label="edit" onClick={() => handleCardClick(Proje)}>
+                    <Fab color="inherit" aria-label="edit" onClick={() => handleCardClick(Product)}>
                       <EditIcon />
                     </Fab>
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    <IconButton aria-label="delete" size="large" onClick={() => handleDelete(Proje.id)}>
+                    <IconButton aria-label="delete" size="large" onClick={() => handleDelete(Product.id)}>
                       <DeleteIcon fontSize="inherit" />
                     </IconButton>
                   </StyledTableCell>
@@ -161,32 +172,32 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
         </TableContainer>
       </Grid>
       <Modal
-        open={Boolean(selectedProje)}
+        open={Boolean(selectedProduct)}
         onClose={handleCloseModal}
-        aria-labelledby="proje-modal"
-        aria-describedby="proje-modal-description"
+        aria-labelledby="Product-modal"
+        aria-describedby="Product-modal-description"
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <div style={{ overflow: 'auto', backgroundColor: 'rgba(255, 255, 255, 0.9)', padding: '20px' }}>
+        <div style={{ overflow: 'auto', backgroundColor: 'rgba(255, 255, 255)', padding: '20px' }}>
         <div style={{ overflow: 'auto', padding: '20px', display: 'flex', alignItems: 'center' }}>
           <Typography variant="h5" gutterBottom style={{ opacity: '1.0', marginRight: '90px' }}>
-            {selectedProje?.title}   # {selectedProje?.id}
-          </Typography>          
+            {selectedProduct?.title}   # {selectedProduct?.id}
+          </Typography>                
           <IconButton aria-label="upload" size="large" onClick={handleUpdate} >
             <UploadIcon fontSize="large" htmlColor='#0066ff'/>
           </IconButton>
-        </div>
-          <Image src={`/${selectedProje?.img}`} width={400} height={300}style={{ maxWidth: '100%', maxHeight: '100%' }} />
+          </div>
+          <img src={selectedProduct?.img} alt={selectedProduct?.title} style={{ maxWidth: '100%', maxHeight: '100%' }} />
           <TextField
             label="Başlık"
             variant="outlined"
             fullWidth
-            value={editedTitle}
-            onChange={(e) => setEditedTitle(e.target.value)}
+            value={editedTitleProduct}
+            onChange={(e) => seteditedTitleProduct(e.target.value)}
           />
           <TextField
             label="Açıklama"
@@ -194,12 +205,12 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
             fullWidth
             multiline
             rows={4}
-            value={editedDescription}
-            onChange={(e) => setEditedDescription(e.target.value)}
-          />
+            value={editedDescriptionProduct}
+            onChange={(e) => seteditedDescriptionProduct(e.target.value)}
+          /> 
         </div>
-      </Modal>  
-      </Box> 
+      </Modal>   
+      </Box>
     </>
   );
 }

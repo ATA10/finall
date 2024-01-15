@@ -1,11 +1,12 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import ProjectForm from './panel/ProjectForm';
-import ProductsForm from './panel/ProductsForm';
-import GaleriForm from './panel/GaleriForm';
-import EmailForm from './panel/EmailCon';
-import Doviz from './panel/Doviz';
+import ProjectForm from './panel/Proje/ProjectForm';
+import ProductsForm from './panel/Product/ProductsForm';
+import GaleriForm from './panel/Galeri/GaleriForm';
+import EmailForm from './panel/Mail/EmailCon';
+import Bar from './panel/Bar/Bar';
+
 import { fetchData } from '../../pages/api/utils';
 
 const Admin: React.FC = () => {
@@ -180,11 +181,11 @@ const Admin: React.FC = () => {
       <CssBaseline />
       <div>
         <h1>Admin Panel</h1>
-        <Doviz />
+        <Bar/>
         <ProjectForm ProjeList={projectList} setProjeList={setProjectList} AddProje={AddProje} />
         <ProductsForm ProductList={productList} setProductList={setProductsList} AddProduct={AddProduct} />
         <GaleriForm GaleriList={galeriList} setGaleriList={setGaleriList} AddGaleri={AddGaleri}/>
-        <EmailForm  emaillist={EmailList} setemaillist={setEmailList} AddEmail={AddEmail}/>
+        <EmailForm  emaillist={EmailList} setemaillist={setEmailList} AddEmail={AddEmail}/>        
       </div>
     </>
   );
