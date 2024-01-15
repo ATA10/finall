@@ -23,7 +23,7 @@ const Label = styled(Paper)(({ theme }) => ({
 export default function ImageMasonry() {
   const [selectedGaleri, setSelectedGaleri] = useState(null);
 
-  const handleCardClick = (galeri) => {
+  const handleCardClick = (galeri: React.SetStateAction<null>) => {
     setSelectedGaleri(galeri);
   };
 
