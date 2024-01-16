@@ -9,7 +9,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-const telefonNumarasi ='05443374310';
+const telefonNumarasi ='05555555555';
 
 const SosyalBar = () => {
   const [copySuccess, setCopySuccess] = useState(false);
