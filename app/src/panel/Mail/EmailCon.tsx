@@ -14,9 +14,18 @@ import deleteIcon from '@mui/icons-material/Delete';
 
 import Ekle from'./MailEkle';
 
-
-
-export default function EmailCon({AddEmail, emaillist, setemaillist}) {
+interface Emailss {
+  id: number;
+  name: string;
+  email: string;
+  durum: string;
+}
+interface EmailConProps {
+  AddEmail: (newEmail: Emailss) => void;
+  emaillist: Emailss[];
+  setemaillist: React.Dispatch<React.SetStateAction<Emailss[]>>;
+}
+export default function EmailCon({ AddEmail, emaillist, setemaillist }: EmailConProps) {
     const [mailSent, setemaillis] = useState(false);
     const [subject, setSubject] = useState('');
     const [text, setText] = useState('');
@@ -50,7 +59,7 @@ export default function EmailCon({AddEmail, emaillist, setemaillist}) {
         }
       };
 
-      const EmailSil = async (silinecekID) => {
+      const EmailSil = async (silinecekID : number) => {
         try {
           // Silinen ürünü yerel state içinden filtrele
           const updatedmailList = emaillist.filter((mail) => mail.id !== silinecekID);

@@ -8,14 +8,30 @@ import EmailForm from './panel/Mail/EmailCon';
 import Bar from './panel/Bar/Bar';
 
 import { fetchData } from '../../pages/api/utils';
+import { Productss } from './panel/Product/EkleUrun';
+import { Projectss } from './panel/Proje/EkleProje';
+
+
+interface Galeriss {
+  id: number;
+  img: string;
+  title: string;
+}
+
+interface Emailss {
+  id: number;
+  name: string;
+  email: string;
+  durum: string;
+}
 
 const Admin: React.FC = () => {
 
   // State'lerin tanımlanması
-  const [productList, setProductsList] = useState([]);
-  const [projectList, setProjectList] = useState([]);
-  const [galeriList, setGaleriList] = useState([]);
-  const [EmailList, setEmailList] = useState([]);
+  const [productList, setProductsList] = useState<Productss[]>([]);
+  const [projectList, setProjectList] = useState<Projectss[]>([]);
+  const [galeriList, setGaleriList] = useState<Galeriss[]>([]);
+  const [EmailList, setEmailList] = useState<Emailss[]>([]);
 
   useEffect(() => {
     fetchData('Urunler').then((data) => {
@@ -43,10 +59,10 @@ const Admin: React.FC = () => {
 
 
   // Yeni proje eklemek için kullanılan fonksiyon
-  const AddProje = async (newProjeItem: any) => {
+  const AddProje = async (newProjeItem: Projectss) => {
     // State güncellemesi
     setProjectList([...projectList, newProjeItem]);
-    let arr = [];
+    let arr: Projectss[] = [];
     projectList.map((proje, index) => {
       arr.push(proje);
     });
@@ -76,10 +92,10 @@ const Admin: React.FC = () => {
   }, [projectList]);
 
   // Yeni ürün eklemek için kullanılan fonksiyon
-  const AddProduct = async (newProductItem: any) => {
+  const AddProduct = async (newProductItem: Productss) => {
     // State güncellemesi
     setProductsList([...productList, newProductItem]);
-    let arr1 = [];
+    let arr1: Productss[] = [];
     productList.map((urun, index) => {
       arr1.push(urun);
     });
@@ -109,10 +125,10 @@ const Admin: React.FC = () => {
   }, [productList]);
 
    // Yeni Galeri eklemek için kullanılan fonksiyon
-   const AddGaleri = async (newGaleriItem: any) => {
+   const AddGaleri = async (newGaleriItem: Galeriss) => {
     // State güncellemesi
     setGaleriList([...galeriList, newGaleriItem]);
-    let arrG = [];
+    let arrG: Galeriss[] = [];
     galeriList.map((Galeri, index) => {
       arrG.push(Galeri);
     });
@@ -143,10 +159,10 @@ const Admin: React.FC = () => {
 
 
   // Yeni proje eklemek için kullanılan fonksiyon
-  const AddEmail = async (newMailItem: any) => {
+  const AddEmail = async (newMailItem: Emailss) => {
     // State güncellemesi
     setEmailList([...EmailList, newMailItem]);
-    let arr = [];
+    let arr: Emailss[] = [];
     EmailList.map((mail, index) => {
       arr.push(mail);
     });

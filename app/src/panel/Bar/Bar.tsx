@@ -7,7 +7,11 @@ import { Link, animateScroll as scroll } from 'react-scroll';
 import Modal from '@mui/material/Modal';
 import Doviz from '../Doviz';
 
-const NavBar = ({ scrollPosition }) => {
+interface NavBarProps {
+  scrollPosition: number; 
+}
+
+const NavBar : React.FC<NavBarProps> = ({ scrollPosition }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { IconButton, Modal, Typography, TextField, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/AddCircleSharp';
 import Image from 'next/image';
 
-export default function Ekle({ AddProduct, ProductList }) {
+export interface Productss {
+  id: number ;
+  img: string;
+  title: string;
+  description: string;
+  price: number;
+}
+interface ProductFormProps1 {
+  ProductList: Productss[];
+  AddProduct: (newProduct: Productss) => void;
+}
+
+const EkleProduct: React.FC<ProductFormProps1> = ({ ProductList, AddProduct }) => {
+ 
   const [isOpen, setIsOpen] = useState(false);
   const [newProduct, setnewProduct] = useState({
-    img: null,
+    img: '',
     title: '',
     description: '',
   });
@@ -18,21 +31,21 @@ export default function Ekle({ AddProduct, ProductList }) {
   const handleClose = () => {
     setIsOpen(false);
     setnewProduct({
-      img: null,
+      img: '',
       title: '',
       description: '',
     });
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setnewProduct({
       ...newProduct,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleFileChange = async (e) => {
-    const selectedFile = e.target.files[0];
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
 
     if (selectedFile) {
       const formData = new FormData();
@@ -70,13 +83,14 @@ export default function Ekle({ AddProduct, ProductList }) {
       img: newProduct.img,
       title: newProduct.title,
       description: newProduct.description,
+      price: 0,
     };
 
     AddProduct(newProductItem);
-    console.log(ProductList)
+    
     setIsOpen(false);
     setnewProduct({
-      img: null,
+      img: '',
       title: '',
       description: '',
     });
@@ -142,3 +156,5 @@ export default function Ekle({ AddProduct, ProductList }) {
     </>
   );
 }
+
+export default EkleProduct;

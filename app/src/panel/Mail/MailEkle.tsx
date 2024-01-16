@@ -1,8 +1,20 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { IconButton, Modal, Typography, TextField, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/AddCircleSharp';
 
-export default function Ekle({ AddEmail, maillist }) {
+interface Emailss {
+  id: number;
+  name: string;
+  email: string;
+  durum: string;
+}
+
+interface EkleProps {
+  AddEmail: (newEmail: Emailss) => void; // Replace YourEmailType with the actual type of a single email item
+  maillist: Emailss[]; // Replace YourEmailListType with the actual type of email list
+}
+
+export default function Ekle({ AddEmail, maillist }: EkleProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [newmail, setNewmail] = useState({
     name: '',
@@ -23,7 +35,7 @@ export default function Ekle({ AddEmail, maillist }) {
     });
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewmail({
       ...newmail,
       [e.target.name]: e.target.value,

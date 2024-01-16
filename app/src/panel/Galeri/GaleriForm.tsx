@@ -4,9 +4,21 @@ import InfoIcon from '@mui/icons-material/Delete';
 import Image from 'next/image';
 import Ekle from './GaleriEkle';
 
-export default function GaleriForm({ GaleriList, setGaleriList, AddGaleri }) {
+interface Galeriss {
+  id: number;
+  img: string;
+  title: string;
+}
+
+interface GaleriFormProps {
+  GaleriList: Galeriss[]; // Use the actual type for Galeriss
+  setGaleriList: React.Dispatch<React.SetStateAction<Galeriss[]>>; // Use the actual type for Galeriss
+  AddGaleri: (newGaleri: Galeriss) => void; // Use the actual type for Galeriss
+}
+
+const GaleriForm: React.FC<GaleriFormProps> = ({ GaleriList, setGaleriList, AddGaleri }) => {
   // Fonksiyon: Sil butonuna tıklandığında çalışır, seçili ürünü siler ve modal'ı kapatır
-  const handleDelete = async (silinecekID) => {
+  const handleDelete = async (silinecekID: number) => {
     try {
       // Silinen ürünü yerel state içinden filtrele
       const updatedGaleriList = GaleriList.filter((Galeri) => Galeri.id !== silinecekID);
@@ -35,7 +47,7 @@ export default function GaleriForm({ GaleriList, setGaleriList, AddGaleri }) {
 
   return (
     <>
-      <Box sx={{ height: '5vh' }} id ="galeri"/>
+      <Box sx={{ height: '5vh' }} id="galeri" />
       <Box
         display="flex"
         flexDirection="column"
@@ -52,14 +64,14 @@ export default function GaleriForm({ GaleriList, setGaleriList, AddGaleri }) {
           <Ekle AddGaleri={AddGaleri} GaleriList={GaleriList} />
         </Box>
         <Box sx={{ height: '5vh' }} />
-        <ImageList sx={{ width: '100%', height: 1000}} cols={3} rowHeight={400}>
+        <ImageList sx={{ width: '100%', height: 1000 }} cols={3} rowHeight={400}>
           <ImageListItem key="Subheader" style={{ textAlign: 'center' }}>
             {/* GEREKLİ BİR ŞEY EKLE */}
           </ImageListItem>
           {GaleriList.map((item) => (
             <ImageListItem key={item.img}>
               <Image
-                //srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                // srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
                 src={`${item.img}?w=248&fit=crop&auto=format`}
                 alt={item.title}
                 width={1000}
@@ -82,4 +94,6 @@ export default function GaleriForm({ GaleriList, setGaleriList, AddGaleri }) {
       <Box sx={{ height: '10vh' }} />
     </>
   );
-}
+};
+
+export default GaleriForm;

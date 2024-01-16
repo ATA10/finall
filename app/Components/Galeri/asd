@@ -10,12 +10,6 @@ import { Modal } from '@mui/material';
 import GaleriData from "../../../public/data/Galeri.json";
 import { MdFullscreen, MdOutlineFullscreen } from 'react-icons/md';
 
-interface Galeri {
-  id: number;
-  img: string;
-  title: string;
-  description?: string; // Making description optional
-}
 const Label = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -27,9 +21,9 @@ const Label = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ImageMasonry() {
-  const [selectedGaleri, setSelectedGaleri] = useState<Galeri | null>(null);
+  const [selectedGaleri, setSelectedGaleri] = useState(null);
 
-  const handleCardClick = (galeri: Galeri) => {
+  const handleCardClick = (galeri) => {
     setSelectedGaleri(galeri);
   };
 
@@ -49,25 +43,28 @@ export default function ImageMasonry() {
         }}
         >
         <Box sx={{ width: 1500 }}>
-          <Masonry columns={3} spacing={2}>
-            {GaleriData.map((galeri) => (
-              <div key={galeri.id}>
+            <Masonry columns={3} spacing={2}>
+            {GaleriData.map((galeri, index) => (
+                <div key={index}>
+                {/* <Label>{item.title}</Label> */}
                 <Image
-                  src={`${galeri.img}`}
-                  alt={galeri.title}
-                  width={162}
-                  height={162}
-                  style={{
+                    //srcSet={`${item.img}?w=162&auto=format&dpr=2 2x`}
+                    src={`${galeri.img}?w=162&auto=format`}
+                    alt={galeri.title}
+                    loading="lazy"
+                    width={162}
+                    height={162}
+                    style={{
                     borderBottomLeftRadius: 4,
                     borderBottomRightRadius: 4,
                     display: 'block',
                     width: '100%',
-                  }}
-                  onClick={() => handleCardClick(galeri)}
+                    }}
+                    onClick={() => handleCardClick(galeri)}
                 />
-              </div>
+                </div>
             ))}
-          </Masonry>
+            </Masonry>
         </Box>
     </Box>
     {/* Modal */}
@@ -99,16 +96,14 @@ export default function ImageMasonry() {
           <Typography variant="h5" gutterBottom style={{ opacity: '1.0'}} color={'white'}>
             {selectedGaleri?.title}
           </Typography>
-          <Image
-            src={selectedGaleri?.img ?? ''}
-            alt={selectedGaleri?.title ?? ''}
-            width={800}
-            height={600}
-            style={{
-              maxWidth: '100%',
-              maxHeight: '100%',
-            }}
-          />
+          <Image 
+          src={`${selectedGaleri?.img}`} 
+          alt={selectedGaleri?.title} 
+          width={800}
+          height={600}
+          style={{ 
+            maxWidth: '100%', 
+            maxHeight: '100%' }} />
           <Typography variant="body2" id="product-modal-description">
             {selectedGaleri?.description}
           </Typography>

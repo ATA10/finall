@@ -16,14 +16,21 @@ import EditIcon from '@mui/icons-material/Edit';
 import Image from 'next/image';
 
 import Ekle from './EkleProje';
+import { Projectss } from './EkleProje';
 
-export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
+interface ProjectFormProps {
+  ProjeList: Projectss[];
+  setProjeList: React.Dispatch<React.SetStateAction<Projectss[]>>;
+  AddProje: (newProje: Projectss) => void;
+}
 
-  const [selectedProje, setselectedProje] = useState(null);
+export default function ProjectForm({ ProjeList, setProjeList, AddProje }: ProjectFormProps) {
+
+  const [selectedProje, setselectedProje] = useState<Projectss | null>(null);
   const [editedTitle, setEditedTitle] = useState('');
   const [editedDescription, setEditedDescription] = useState('');
 
-  const handleCardClick = (proje) => {
+  const handleCardClick = (proje: Projectss) => {
     setselectedProje(proje);
     setEditedTitle(proje.title);
     setEditedDescription(proje.description);
@@ -36,7 +43,10 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
   };
 
   const handleUpdate = async () => {
-    // Güncellenen veriyi oluştur
+    if (!selectedProje) {
+      console.error('No selected proje for update');
+      return;
+    }
     const updatedproje = {
       ...selectedProje,
       title: editedTitle,
@@ -52,12 +62,12 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
 
     try {
       // API'ye POST isteği gönderme
-      const response = await fetch('/api/ServerProje', {
-        method: 'POST',
+      const response = await fetch(`/api/ServerProje`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedProjeList),
+        body: JSON.stringify(updatedproje),
       });
 
       if (response.ok) {
@@ -73,7 +83,7 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
   };
 
   // Fonksiyon: Sil butonuna tıklandığında çalışır, seçili ürünü siler ve modal'ı kapatır
-  const handleDelete = async (silinecek) => {
+  const handleDelete = async (silinecek:number) => {
     // Silinen ürünü yerel state içinden filtrele
     const updatedProjeList = ProjeList.filter((Proje) => Proje.id !== silinecek);
 
@@ -140,7 +150,7 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
                 <StyledTableRow key={Proje.id}>
                   <StyledTableCell >{Proje.id}</StyledTableCell>
                   <StyledTableCell component="th" scope="row">
-                  <Image src={`/${Proje?.img}`} width={400} height={300}style={{ maxWidth: '100%', maxHeight: '100%' }} />
+                  <Image src={`/${Proje?.img}`} alt={Proje.title} width={400} height={300}style={{ maxWidth: '100%', maxHeight: '100%' }} />
                   </StyledTableCell>
                   <StyledTableCell align="center">{Proje.title}</StyledTableCell>
                   <StyledTableCell align="center">{Proje.description}</StyledTableCell>
@@ -180,7 +190,7 @@ export default function ProjectForm({ProjeList, setProjeList, AddProje}) {
             <UploadIcon fontSize="large" htmlColor='#0066ff'/>
           </IconButton>
         </div>
-          <Image src={`/${selectedProje?.img}`} width={400} height={300}style={{ maxWidth: '100%', maxHeight: '100%' }} />
+          <Image src={`/${selectedProje?.img}`} alt={selectedProje?.title || ''} width={400} height={300} style={{ maxWidth: '100%', maxHeight: '100%' }} />
           <TextField
             label="Başlık"
             variant="outlined"

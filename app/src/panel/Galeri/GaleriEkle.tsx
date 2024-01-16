@@ -5,12 +5,18 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import Image from 'next/image';
 
-export default function Ekle({ AddGaleri, GaleriList}) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [newGaleri, setNewGaleri] = useState({
-      img: null,
-      title: '',
-    });
+
+interface EkleProps {
+  AddGaleri: (newGaleriItem: any) => void; 
+  GaleriList: any[]; 
+}
+
+const Ekle: React.FC<EkleProps> = ({ AddGaleri, GaleriList }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [newGaleri, setNewGaleri] = useState({
+    img: null, 
+    title: '',
+  });
   
     const handleOpen = () => {
       setIsOpen(true);
@@ -24,42 +30,44 @@ export default function Ekle({ AddGaleri, GaleriList}) {
       });
     };
   
-    const handleInputChange = (e) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setNewGaleri({
         ...newGaleri,
         [e.target.name]: e.target.value,
       });
     };
   
-    const handleFileChange = async (e) => {
-      const selectedFile = e.target.files[0];
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        const selectedFile = e.target.files[0];
   
-      if (selectedFile) {
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-        console.log(formData);
-  
-  
-        try {
-          const response = await fetch('/api/upload/', {
-            method: 'POST',
-            body: formData,
-          });
-  
-          if (response.ok) {
-            const responseData = await response.json();
-  
-            setNewGaleri({
-              ...newGaleri,
-              img: responseData.imagePath, // Update with the received file path
+        if (selectedFile) {
+          const formData = new FormData();
+          formData.append('file', selectedFile);
+          console.log(formData);
+    
+    
+          try {
+            const response = await fetch('/api/upload/', {
+              method: 'POST',
+              body: formData,
             });
-  
-            console.log('File uploaded successfully:', responseData);
-          } else {
-            console.error('Error uploading file:', response.statusText);
+    
+            if (response.ok) {
+              const responseData = await response.json();
+    
+              setNewGaleri({
+                ...newGaleri,
+                img: responseData.imagePath, // Update with the received file path
+              });
+    
+              console.log('File uploaded successfully:', responseData);
+            } else {
+              console.error('Error uploading file:', response.statusText);
+            }
+          } catch (error) {
+            console.error('API request error:', error);
           }
-        } catch (error) {
-          console.error('API request error:', error);
         }
       }
     };
@@ -151,3 +159,5 @@ export default function Ekle({ AddGaleri, GaleriList}) {
     whiteSpace: 'nowrap',
     width: 1,
   });
+
+  export default Ekle;

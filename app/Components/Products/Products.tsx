@@ -10,10 +10,17 @@ import Container from '@mui/material/Container';
 import ProductList from "../../../public/data/Urunler.json";
 import Image from 'next/image';
 
-export default function Products() {
-  const [selectedProduct, setSelectedProduct] = useState(null);
+interface Productss {
+  id: number;
+  img: string;
+  title: string;
+  description: string;
+}
 
-  const handleCardClick = (product:any) => {
+const Urunlers: React.FC = () => {
+  const [selectedProduct, setSelectedProduct] = useState<Productss | null>(null);
+
+  const handleCardClick = (product: Productss) => {
     setSelectedProduct(product);
   };
 
@@ -83,14 +90,16 @@ export default function Products() {
           <Typography variant="h5" gutterBottom style={{ opacity: '1.0' }}>
             {selectedProduct?.title}
           </Typography>
-          <Image 
-          src={`/${selectedProduct?.img}`} 
-          alt={selectedProduct?.title} 
-          width={400}
-          height={300}
-          style={{ 
-            maxWidth: '100%', 
-            maxHeight: '100%' }} />
+          <Image
+            src={`/${selectedProduct?.img ?? ''}`}
+            alt={selectedProduct?.title ?? ''}
+            width={400}
+            height={300}
+            style={{
+              maxWidth: '100%',
+              maxHeight: '100%',
+            }}
+          />
           <Box sx={{ height: '5vh' }} />
           <Typography variant="body1" id="product-modal-description">
             {selectedProduct?.description}
@@ -101,3 +110,4 @@ export default function Products() {
     </Container>
   );
 }
+export default Urunlers;

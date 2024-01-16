@@ -16,72 +16,81 @@ import EditIcon from '@mui/icons-material/Edit';
 import Image from 'next/image';
 
 import Ekle from './EkleUrun';
+import { Productss } from './EkleUrun';
 
+interface ProductFormProps {
+  ProductList: Productss[];
+  setProductList: React.Dispatch<React.SetStateAction<Productss[]>>;
+  AddProduct: (newProduct: Productss) => void;
+}
 
-// Ana bileşenimiz, ürün listesini görüntüleyen ve düzenlemeyi sağlayan bir form
-export default function ProductctForm({ProductList, setProductList, AddProduct}) {
-  
-  // State değişkenleri: Seçili ürün, düzenlenmiş başlık ve açıklama
-  const [selectedProduct, setselectedProduct] = useState(null);
+const ProductForm: React.FC<ProductFormProps> = ({ ProductList, setProductList, AddProduct }) => {
+  const [selectedProduct, setSelectedProduct] = useState<Productss | null>(null);
   const [editedTitleProduct, seteditedTitleProduct] = useState('');
   const [editedDescriptionProduct, seteditedDescriptionProduct] = useState('');
 
   // Fonksiyon: Kart tıklandığında çalışır, seçili ürünü ve bilgilerini set eder
-  const handleCardClick = (Product) => {
-    setselectedProduct(Product);
-    seteditedTitleProduct(Product.title);
-    seteditedDescriptionProduct(Product.description);
+  const handleCardClick = (product: Productss) => {
+    setSelectedProduct(product);
+    seteditedTitleProduct(product.title);
+    seteditedDescriptionProduct(product.description);
   };
 
   // Fonksiyon: Modal'ı kapatır ve state'leri sıfırlar
   const handleCloseModal = () => {
-    setselectedProduct(null);
+    setSelectedProduct(null);
     seteditedTitleProduct('');
     seteditedDescriptionProduct('');
   };
 
   // Fonksiyon: Güncelle butonuna tıklandığında çalışır, ürünü günceller ve modal'ı kapatır
-  const handleUpdate = async () => {
-    // Güncellenen veriyi oluştur
-    const updatedProduct = {
-      ...selectedProduct,
-      title: editedTitleProduct,
-      description: editedDescriptionProduct,
-    };
+const handleUpdate = async () => {
+  if (!selectedProduct) {
+    // Handle the case where there is no selected product
+    console.error('No selected product for update');
+    return;
+  }
 
-    // Güncellenen ürünü yerel state içinde bul
-    const updatedProductList = ProductList.map((Product) =>
-      Product === selectedProduct ? updatedProduct : Product
-    );
-
-    // TODO: Yerel state'i güncelle
-    setProductList(updatedProductList);
-
-    try {
-      // API'ye POST isteği gönderme
-      const response = await fetch('/api/ServerProduct', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedProductList),
-      });
-
-      if (response.ok) {
-        console.log('Ürün başarıyla güncellendi');
-      } else {
-        console.error('Ürün güncellenirken bir hata oluştu');
-      }
-    } catch (error) {
-      console.error('API isteği sırasında bir hata oluştu', error);
-    }
-
-    // Modal'ı kapat
-    handleCloseModal();
+  // Güncellenen veriyi oluştur
+  const updatedProduct = {
+    ...selectedProduct,
+    title: editedTitleProduct,
+    description: editedDescriptionProduct,
   };
 
+  // Güncellenen ürünü yerel state içinde bul
+  const updatedProductList = ProductList.map((product) =>
+    product.id === selectedProduct.id ? updatedProduct : product
+  );
+
+  // TODO: Yerel state'i güncelle
+  setProductList(updatedProductList);
+
+  try {
+    // API'ye PUT isteği gönderme
+    const response = await fetch(`/api/ServerProduct`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedProduct),
+    });
+
+    if (response.ok) {
+      console.log('Ürün başarıyla güncellendi');
+    } else {
+      console.error('Ürün güncellenirken bir hata oluştu');
+    }
+  } catch (error) {
+    console.error('API isteği sırasında bir hata oluştu', error);
+  }
+
+  // Modal'ı kapat
+  handleCloseModal();
+};
+
   // Fonksiyon: Sil butonuna tıklandığında çalışır, seçili ürünü siler ve modal'ı kapatır
-  const handleDelete = async (silinecek) => {
+  const handleDelete = async (silinecek:number) => {
     // Silinen ürünü yerel state içinden filtrele
     const updatedProductList = ProductList.filter((Product) => Product.id !== silinecek);
 
@@ -150,7 +159,7 @@ export default function ProductctForm({ProductList, setProductList, AddProduct})
                 <StyledTableRow key={Product.id}>
                   <StyledTableCell >{Product.id}</StyledTableCell>
                   <StyledTableCell component="th" scope="row">
-                  <Image src={`/${Product?.img}`} width={200} height={200} style={{ maxWidth: '100%', maxHeight: '100%' }} />
+                  <Image src={`/${Product?.img}`}  alt={Product.title} width={200} height={200} style={{ maxWidth: '100%', maxHeight: '100%' }} />
                   </StyledTableCell>
                   <StyledTableCell align="center">{Product.title}</StyledTableCell>
                   <StyledTableCell align="center">{Product.description}</StyledTableCell>
@@ -191,7 +200,7 @@ export default function ProductctForm({ProductList, setProductList, AddProduct})
             <UploadIcon fontSize="large" htmlColor='#0066ff'/>
           </IconButton>
           </div>
-          <img src={selectedProduct?.img} alt={selectedProduct?.title} style={{ maxWidth: '100%', maxHeight: '100%' }} />
+          <Image src={`/${selectedProduct?.img}`} alt={selectedProduct?.title || ''} width={400} height={300} style={{ maxWidth: '100%', maxHeight: '100%' }} />
           <TextField
             label="Başlık"
             variant="outlined"
@@ -234,3 +243,5 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
+
+export default ProductForm;

@@ -11,10 +11,17 @@ import Image from 'next/image';
 
 import ProjectList from "../../../public/data/Projeler.json";
 
-export default function Project() {
-  const [selectedProduct, setSelectedProduct] = useState(null);
+interface Productss {
+  id: number;
+  img: string;
+  title: string;
+  description: string;
+}
 
-  const handleCardClick = (product) => {
+export default function Project() {
+  const [selectedProduct, setSelectedProduct] = useState<Productss | null>(null);
+
+  const handleCardClick = (product: Productss) => {
     setSelectedProduct(product);
   };
 
@@ -73,12 +80,13 @@ export default function Project() {
             <Typography variant="h5" gutterBottom style={{ opacity: '1.0' }}>
               {selectedProduct?.title}
             </Typography>
-            <Image 
-            src={`/${selectedProduct?.img}`} 
-            alt={selectedProduct?.title} 
-            width={400}
-            height={300}
-            style={{ maxWidth: '100%', maxHeight: '100%' }} />
+            <Image
+              src={`/${selectedProduct?.img ?? ''}`}
+              alt={selectedProduct?.title ?? ''}
+              width={400}
+              height={300}
+              style={{ maxWidth: '100%', maxHeight: '100%' }}
+            />
           </div>
           <Typography variant="body2" id="product-modal-description">
             {selectedProduct?.description}

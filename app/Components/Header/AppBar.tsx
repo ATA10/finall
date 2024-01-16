@@ -7,7 +7,11 @@ import { CssBaseline, Container } from '@mui/material';
 import { Link, animateScroll as scroll } from 'react-scroll';
 import { MdEmail, MdPhoneInTalk, MdOutlineLocationOn } from 'react-icons/md';
 
-const NavBar = ({ scrollPosition }) => {
+interface NavBarProps {
+  scrollPosition: number; // Define the type of scrollPosition
+}
+
+const NavBar: React.FC<NavBarProps> = ({ scrollPosition }) => {
   return (
     <Box id="anasayfa">
       <AppBar

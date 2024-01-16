@@ -4,7 +4,7 @@ import { Box, Grid, Typography } from '@mui/material';
 const Home = () => {
     const [tcmbDataUSD, setTcmbDataUSD] = useState(null);
     const [tcmbDataEUR, setTcmbDataEUR] = useState(null);
-    const [tcmbData, setTcmbData] = useState([]);
+    const [tcmbData, setTcmbData] = useState<string[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {

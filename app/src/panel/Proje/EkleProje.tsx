@@ -1,9 +1,22 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { IconButton, Modal, Typography, TextField, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/AddCircleSharp';
 import Image from 'next/image';
 
-export default function Ekle({ AddProje, ProjeList }) {
+export interface Projectss {
+  id: number;
+  img: string;
+  title: string;
+  description: string;
+  price: number;
+}
+
+interface EkleProps {
+  AddProje: (newProje: Projectss) => void;  // Replace 'any' with the actual type of newProje
+  ProjeList: Projectss[];  // Replace 'any' with the actual type of ProjeList
+}
+
+export default function Ekle({ AddProje, ProjeList }: EkleProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [newProje, setNewProje] = useState({
@@ -25,7 +38,7 @@ export default function Ekle({ AddProje, ProjeList }) {
     });
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewProje({
       ...newProje,
       [e.target.name]: e.target.value,
@@ -34,8 +47,8 @@ export default function Ekle({ AddProje, ProjeList }) {
 
   // Update handleFileChange function
 
-  const handleFileChange = async (e) => {
-    const selectedFile = e.target.files[0];
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
 
     if (selectedFile) {
       const formData = new FormData();
@@ -74,6 +87,7 @@ export default function Ekle({ AddProje, ProjeList }) {
       img: newProje.img,
       title: newProje.title,
       description: newProje.description,
+      price: 0,
     };
 
     AddProje(newProjeItem);
