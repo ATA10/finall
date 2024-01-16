@@ -1,3 +1,5 @@
+Projenin önizlemesi : https://next-web-v-1.vercel.app/
+
 Projenin videosu için Youtube link : https://youtu.be/4rtrBErcEwk
 
 -npm install
