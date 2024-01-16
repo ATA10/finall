@@ -38,17 +38,17 @@ export default function Project() {
       <Grid
         container
         spacing={{ xs: 1, md: 1 }}
-        columns={{ xs: 4, sm: 4, md: 16 }}
+        columns={{ xs: 12, sm: 4, md: 16 }}
         justifyContent="center"
         alignItems="center"
       >
         {ProjectList.map((product, index) => (
-          <Grid item xs={2} sm={4} md={4} key={index}>
-            <Card sx={{ maxWidth: 600, margin: 'auto', maxHeight: 600 }} onClick={() => handleCardClick(product)}>
+          <Grid item xs={12} sm={4} md={6} key={index}>
+            <Card sx={{ maxWidth: 600, margin: 'auto', maxHeight: 600}} onClick={() => handleCardClick(product)}>
               <CardActionArea>
                 <CardMedia
                   component="img"
-                  height="240"
+                  height="340"
                   image={product.img}
                   alt={product.title}
                 />
@@ -83,8 +83,8 @@ export default function Project() {
             <Image
               src={`/${selectedProduct?.img ?? ''}`}
               alt={selectedProduct?.title ?? ''}
-              width={400}
-              height={300}
+              width={1000}
+              height={800}
               style={{ maxWidth: '100%', maxHeight: '100%' }}
             />
           </div>

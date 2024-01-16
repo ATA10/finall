@@ -1,67 +1,77 @@
 [
   {
-    "id": 1,
-    "img": "/pic/tema/1.jpg",
-    "title": "Fern"
-  },
-  {
     "id": 2,
     "img": "/pic/tema/2.jpg",
     "title": "Snacks"
   },
   {
     "id": 3,
-    "img": "/pic/tema/4.jpg",
-    "title": "Mushrooms"
+    "img": "/pic/IMG-20240116-WA0019-1705443124395-740863749.jpeg",
+    "title": "1"
   },
   {
     "id": 4,
-    "img": "/pic/tema/4.jpg",
-    "title": "Tower"
+    "img": "/pic/IMG-20240116-WA0022-1705443136653-694787437.jpeg",
+    "title": "2"
   },
   {
     "id": 5,
-    "img": "/pic/tema/6.jpg",
-    "title": "Sea star"
+    "img": "/pic/IMG-20240116-WA0016-1705443147246-527549649.jpeg",
+    "title": "3"
   },
   {
     "id": 6,
-    "img": "/pic/tema/5.jpg",
-    "title": "Honey"
+    "img": "/pic/IMG-20240116-WA0032-1705443162653-913997700.jpeg",
+    "title": "4"
   },
   {
     "id": 7,
-    "img": "/pic/tema/1.jpg",
-    "title": "Basketball"
+    "img": "/pic/IMG-20240116-WA0035-1705443188906-974702544.jpeg",
+    "title": "5"
   },
   {
     "id": 8,
-    "img": "/pic/tema/2.jpg",
-    "title": "Breakfast"
+    "img": "/pic/IMG-20240116-WA0017-1705443197123-110348806.jpeg",
+    "title": "6"
   },
   {
     "id": 9,
-    "img": "/pic/tema/3.jpg",
-    "title": "Tree"
+    "img": "/pic/IMG-20240116-WA0050-1705443231171-172463798.jpeg",
+    "title": "7"
   },
   {
     "id": 10,
-    "img": "/pic/tema/4.jpg",
-    "title": "Burger"
+    "img": "/pic/1-1705443239723-384162923.jpeg",
+    "title": "8"
   },
   {
     "id": 11,
-    "img": "/pic/tema/5.jpg",
-    "title": "Camera"
+    "img": "/pic/IMG-20240117-WA0023-1705443255425-521629059.jpeg",
+    "title": "9"
   },
   {
     "id": 12,
-    "img": "/pic/tema/2.jpg",
-    "title": "Breakfast"
+    "img": "/pic/IMG-20240116-WA0108-1705443269938-4714965.jpeg",
+    "title": "10"
   },
   {
     "id": 13,
-    "img": "/pic/tema/1.jpg",
-    "title": "Breakfast"
+    "img": "/pic/IMG-20240116-WA0078-1705443306874-992379877.jpeg",
+    "title": "12"
+  },
+  {
+    "id": 14,
+    "img": "/pic/IMG-20240116-WA0099-1705443348449-240977645.jpeg",
+    "title": "13"
+  },
+  {
+    "id": 15,
+    "img": "/pic/IMG-20240116-WA0021-1705443361381-396257349.jpeg",
+    "title": "14"
+  },
+  {
+    "id": 16,
+    "img": "/pic/IMG-20240116-WA0029-1705443392226-325464859.jpeg",
+    "title": "15"
   }
 ]
