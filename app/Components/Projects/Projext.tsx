@@ -38,17 +38,27 @@ export default function Project() {
       <Grid
         container
         spacing={{ xs: 1, md: 1 }}
-        columns={{ xs: 12, sm: 4, md: 16 }}
+        columns={{ xs: 12, sm: 4, md: 12 }}
         justifyContent="center"
         alignItems="center"
       >
         {ProjectList.map((product, index) => (
-          <Grid item xs={12} sm={4} md={6} key={index}>
-            <Card sx={{ maxWidth: 600, margin: 'auto', maxHeight: 600}} onClick={() => handleCardClick(product)}>
+          <Grid item xs={12} sm={4} md={4} key={index}>
+            <Card
+              sx={{
+                width: '100%', // Set the width to 100% of the parent container
+                height: '100%', // Set a fixed height for all cards
+                margin: 'auto',
+                display: 'flex',
+                flexDirection: 'column', // Stack children vertically
+              }}
+              onClick={() => handleCardClick(product)}
+            >
               <CardActionArea>
                 <CardMedia
                   component="img"
-                  height="340"
+                  height="100%" // Set the height of the image to 100% of the parent container
+                  width="100%" // Set the width of the image to 100% of the parent container
                   image={product.img}
                   alt={product.title}
                 />
